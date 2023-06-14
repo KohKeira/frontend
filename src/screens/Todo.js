@@ -32,7 +32,20 @@ function Todo() {
     month: "long",
     year: "numeric",
   }
-
+  const submitNewTodo = () => {
+    // Validation to ensure entry is not empty
+    if (newTodoDescription.trim() !== "") {
+      const newTodo = {
+        description: newTodoDescription,
+      };
+      axios.post(`${CONFIG.API_ENDPOINT}`, newTodo).then(() => {
+        // Does below action after request has been made 
+        populateTodos();
+      })
+    } else {
+      alert("Invalid Todo input!");
+    }
+  }
   // Manages side effects like API calls
   useEffect(() => {
     // Fetches data on initial render
@@ -89,9 +102,9 @@ function Todo() {
           </tbody>
         </Table>
       </Form>
-      <Button size="sm" variant="primary">
-        Add
-      </Button>
+      <Button size="sm" variant="primary" onClick={submitNewTodo}>
+    Add
+  </Button>
     </Container>
   );
 }
